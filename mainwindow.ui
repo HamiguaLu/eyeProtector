@@ -66,7 +66,7 @@
      <pixmap resource="icon.qrc">:/icon/main/res/Eye_small.png</pixmap>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkBox">
+   <widget class="QCheckBox" name="m_cbAutoStart">
     <property name="geometry">
      <rect>
       <x>170</x>
@@ -79,7 +79,7 @@
      <string>Auto Start once OS start</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="m_saveBtn">
     <property name="geometry">
      <rect>
       <x>190</x>
