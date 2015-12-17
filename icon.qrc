@@ -1,1 +1,5 @@
-<RCC/>
+<RCC>
+    <qresource prefix="/icon/main">
+        <file>res/Eye_small.png</file>
+    </qresource>
+</RCC>
