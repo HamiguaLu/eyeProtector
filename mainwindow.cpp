@@ -6,6 +6,9 @@
 #include <QSettings>
 #include <QMessageBox>
 
+#include <X11/Xlib.h>
+extern void x11_window_set_on_top ( Window xid);
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -16,15 +19,40 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->m_saveBtn->setEnabled(false);
 
+    QRestTimeCounter *m_restInfoDlg = new QRestTimeCounter();
+    x11_window_set_on_top(m_restInfoDlg->winId());
+     m_restInfoDlg->setWindowFlags(Qt::FramelessWindowHint);
+    m_restInfoDlg->show();
+
+    connect(m_restInfoDlg,SIGNAL(exitEvt()),this,SLOT(onExitEvt()) );
+    connect(m_restInfoDlg,SIGNAL(showMainUIEvt()),this,SLOT(onShowMainUiEvt()) );
+    connect(m_restInfoDlg,SIGNAL(time2restEvt()),this,SLOT(onTime2RestEvt()) );
+
     loadSettings();
 
 
 }
 
+
+void MainWindow::onExitEvt()
+{
+    close();
+    QApplication::quit();
+}
+
+
+void MainWindow::onShowMainUiEvt()
+{
+    this->show();
+}
+
+void MainWindow::onTime2RestEvt()
+{
+}
+
+
 MainWindow::~MainWindow()
 {
-
-
     delete ui;
 }
 
@@ -53,7 +81,7 @@ void MainWindow::saveSettings()
 void MainWindow::on_m_saveBtn_clicked()
 {
     saveSettings();
-    //startMonitor();
+
     hide();
 }
 

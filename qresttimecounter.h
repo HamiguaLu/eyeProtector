@@ -43,6 +43,7 @@ private slots:
 signals:
      void showMainUIEvt();
      void exitEvt();
+     void time2restEvt();
 };
 
 #endif // QRESTTIMECOUNTER_H

@@ -9,6 +9,8 @@ QRestTimeCounter::QRestTimeCounter(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    //
+
     exitAct = new QAction(tr("&Exit"), this);
     exitAct->setStatusTip(tr("Exit eyeProtector"));
     connect(exitAct, SIGNAL(triggered()), this, SLOT(onExit()));
@@ -45,7 +47,7 @@ void QRestTimeCounter::onShowMainUi()
 
 void QRestTimeCounter::onTimerEvent()
 {
-
+    emit time2restEvt();
 
     //startMonitor();
 }
@@ -54,15 +56,16 @@ void QRestTimeCounter::onTimerEvent()
 void QRestTimeCounter::onTimerCounterEvent()
 {
     --m_iCounter;
-    QString info = QString("Next rest: after %1 minutes %2 seconds ").arg(m_iCounter / 60).arg(m_iCounter % 60);
-     ui->lineEdit->setText(info);
+    QString info = QString("%1 minutes %2 seconds ").arg(m_iCounter / 60).arg(m_iCounter % 60);
+     ui->label->setText(info);
 }
 
 
 void QRestTimeCounter::contextMenuEvent(QContextMenuEvent *event)
 {
     QMenu menu(this);
-    menu.addAction(newAct);
+    menu.addAction(exitAct);
+    menu.addAction(showMainUiAct);
 
     menu.exec(event->globalPos());
 }

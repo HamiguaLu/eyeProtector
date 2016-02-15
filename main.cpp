@@ -12,8 +12,9 @@
 // change a window's _NET_WM_STATE property so that it can be kept on top.
 // @display: x11 display singleton.
 // @xid    : the window to set on top.
-Status x11_window_set_on_top (Display* display, Window xid)
+void x11_window_set_on_top ( Window xid)
 {
+    Display* display = XOpenDisplay (NULL);
     XEvent event;
     event.xclient.type = ClientMessage;
     event.xclient.serial = 0;
@@ -29,8 +30,12 @@ Status x11_window_set_on_top (Display* display, Window xid)
     event.xclient.data.l[3] = 0;
     event.xclient.data.l[4] = 0;
 
-    return XSendEvent (display, DefaultRootWindow(display), False,
+    XSendEvent (display, DefaultRootWindow(display), False,
                        SubstructureRedirectMask|SubstructureNotifyMask, &event);
+
+    XFlush (display);
+
+    XCloseDisplay (display);
 }
 
 
@@ -41,18 +46,8 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
-    //w.setWindowFlags(Qt::FramelessWindowHint);
-    Display* display = XOpenDisplay (NULL);
-
-    WId wid = w.winId();
-    x11_window_set_on_top (display, wid);
-
-    XFlush (display); //for simplicity, no event loops here.
-
-
     w.show();
 
-    int ret = a.exec();
-    XCloseDisplay (display);
-    return ret;
+    return a.exec();
+
 }

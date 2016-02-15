@@ -3,16 +3,12 @@
 
 #include <QMainWindow>
 #include <QTimer>
+#include "qresttimecounter.h"
 
 namespace Ui {
 class MainWindow;
 }
 
-
-class QAction;
-class QActionGroup;
-class QLabel;
-class QMenu;
 
 class MainWindow : public QMainWindow
 {
@@ -24,31 +20,23 @@ public:
 
 private slots:
     void on_m_saveBtn_clicked();
-
+    void onExitEvt();
+    void onShowMainUiEvt();
+    void onTime2RestEvt();
 private:
     Ui::MainWindow *ui;
+    QRestTimeCounter *m_restInfoDlg;
 
 private slots:
-   void onTimerEvent();
-   void onTimerCounterEvent();
+
    void on_m_lockTime_textChanged(const QString &arg1);
 
-protected:
-    void contextMenuEvent(QContextMenuEvent *event) Q_DECL_OVERRIDE;
 
-    QAction *newAct;
-
-private slots:
-    void newActSlot();
 
 private:
     void loadSettings();
     void saveSettings();
-    void startMonitor();
-    QTimer *m_timer;
-    QTimer *m_timerCounter;
 
-    int m_iCounter;
 };
 
 #endif // MAINWINDOW_H
