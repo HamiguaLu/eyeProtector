@@ -1,10 +1,12 @@
 
 
+#include <QSettings>
+#include <QMessageBox>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QSettings>
-#include <QMessageBox>
+
+
 
 #include <X11/Xlib.h>
 extern void x11_window_set_on_top ( Window xid);
@@ -43,7 +45,11 @@ void MainWindow::onExitEvt()
 
 void MainWindow::onShowMainUiEvt()
 {
-    this->show();
+    //this->show();
+    m_lockDlg = new time2restDlg();
+    x11_window_set_on_top(m_lockDlg->winId());
+     m_lockDlg->setWindowFlags(Qt::FramelessWindowHint);
+    m_lockDlg->showFullScreen();
 }
 
 void MainWindow::onTime2RestEvt()

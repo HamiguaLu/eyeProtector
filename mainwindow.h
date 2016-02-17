@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QTimer>
 #include "qresttimecounter.h"
+#include "time2restdlg.h"
 
 namespace Ui {
 class MainWindow;
@@ -26,6 +27,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QRestTimeCounter *m_restInfoDlg;
+    time2restDlg *m_lockDlg;
 
 private slots:
 

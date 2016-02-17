@@ -44,6 +44,11 @@ signals:
      void showMainUIEvt();
      void exitEvt();
      void time2restEvt();
+
+protected:
+     QPoint m_dragPosition;
+    void mouseMoveEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent *event);
 };
 
 #endif // QRESTTIMECOUNTER_H

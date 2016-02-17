@@ -14,13 +14,16 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    qresttimecounter.cpp
+    qresttimecounter.cpp \
+    time2restdlg.cpp
 
 HEADERS  += mainwindow.h \
-    qresttimecounter.h
+    qresttimecounter.h \
+    time2restdlg.h
 
 FORMS    += mainwindow.ui \
-    qresttimecounter.ui
+    qresttimecounter.ui \
+    time2restdlg.ui
 
 RESOURCES += \
     icon.qrc

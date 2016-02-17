@@ -1,5 +1,14 @@
 <RCC>
     <qresource prefix="/icon/main">
         <file>res/Eye_small.png</file>
+        <file>res/bk1.jpg</file>
+        <file>res/bk2.jpg</file>
+        <file>res/bk3.jpg</file>
+        <file>res/bk4.jpg</file>
+        <file>res/bk5.jpg</file>
+        <file>res/clock.png</file>
+        <file>res/Eye.png</file>
+        <file>res/lock.png</file>
+        <file>res/unlock.png</file>
     </qresource>
 </RCC>

@@ -9,8 +9,6 @@ QRestTimeCounter::QRestTimeCounter(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    //
-
     exitAct = new QAction(tr("&Exit"), this);
     exitAct->setStatusTip(tr("Exit eyeProtector"));
     connect(exitAct, SIGNAL(triggered()), this, SLOT(onExit()));
@@ -56,7 +54,7 @@ void QRestTimeCounter::onTimerEvent()
 void QRestTimeCounter::onTimerCounterEvent()
 {
     --m_iCounter;
-    QString info = QString("%1 minutes %2 seconds ").arg(m_iCounter / 60).arg(m_iCounter % 60);
+    QString info = QString("%1 : %2 ").arg(m_iCounter / 60).arg(m_iCounter % 60);
      ui->label->setText(info);
 }
 
@@ -86,4 +84,23 @@ void QRestTimeCounter::startMonitor()
     m_timerCounter->start( 1000);
 
 }
+
+
+void QRestTimeCounter::mouseMoveEvent(QMouseEvent *event)
+{
+    if (event->buttons() & Qt::LeftButton) {
+        move(event->globalPos() - m_dragPosition);
+        event->accept();
+    }
+}
+void QRestTimeCounter::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        m_dragPosition = event->globalPos() - frameGeometry().topLeft();
+        event->accept();
+    }
+}
+
+
+
 
