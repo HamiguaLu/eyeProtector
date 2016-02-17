@@ -8,9 +8,6 @@
 
 
 
-#include <X11/Xlib.h>
-extern void x11_window_set_on_top ( Window xid);
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -18,42 +15,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     ui->m_lockTime->setValidator(new QIntValidator(1, 600, this));
-
     ui->m_saveBtn->setEnabled(false);
 
-    QRestTimeCounter *m_restInfoDlg = new QRestTimeCounter();
-    x11_window_set_on_top(m_restInfoDlg->winId());
-     m_restInfoDlg->setWindowFlags(Qt::FramelessWindowHint);
-    m_restInfoDlg->show();
-
-    connect(m_restInfoDlg,SIGNAL(exitEvt()),this,SLOT(onExitEvt()) );
-    connect(m_restInfoDlg,SIGNAL(showMainUIEvt()),this,SLOT(onShowMainUiEvt()) );
-    connect(m_restInfoDlg,SIGNAL(time2restEvt()),this,SLOT(onTime2RestEvt()) );
+    setStyleSheet("background-color:grey;");
 
     loadSettings();
 
-
-}
-
-
-void MainWindow::onExitEvt()
-{
-    close();
-    QApplication::quit();
-}
-
-
-void MainWindow::onShowMainUiEvt()
-{
-    //this->show();
-    m_lockDlg = new time2restDlg();
-    x11_window_set_on_top(m_lockDlg->winId());
-     m_lockDlg->setWindowFlags(Qt::FramelessWindowHint);
-    m_lockDlg->showFullScreen();
-}
-
-void MainWindow::onTime2RestEvt()
-{
 }
 
 
@@ -61,9 +28,6 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-
-
-
 
 
 void MainWindow::loadSettings()
@@ -76,19 +40,17 @@ void MainWindow::loadSettings()
 
 void MainWindow::saveSettings()
 {
-
     QSettings settings("eyeProtector.ini", QSettings::IniFormat);
     settings.setValue("locktime", ui->m_lockTime->text().toInt());
     settings.setValue("autostart", ui->m_cbAutoStart->isChecked());
-
 }
 
 
 void MainWindow::on_m_saveBtn_clicked()
 {
     saveSettings();
-
-    hide();
+    emit settingsChanged();
+    close();
 }
 
 void MainWindow::on_m_lockTime_textChanged(const QString &/*arg1*/)

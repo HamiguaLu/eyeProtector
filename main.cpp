@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+
 #include <QApplication>
 
 
@@ -39,14 +39,19 @@ void x11_window_set_on_top ( Window xid)
 }
 
 
-
+#include "qresttimecounter.h"
 
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
+    /*MainWindow w;
+    w.show();*/
+
+    QRestTimeCounter *m_restInfoDlg = new QRestTimeCounter();
+    x11_window_set_on_top(m_restInfoDlg->winId());
+     m_restInfoDlg->setWindowFlags(Qt::FramelessWindowHint);
+     m_restInfoDlg->show();
 
     return a.exec();
 

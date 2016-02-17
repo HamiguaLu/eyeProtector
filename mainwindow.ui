@@ -10,12 +10,12 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>300</height>
+    <height>204</height>
    </rect>
   </property>
   <property name="maximumSize">
    <size>
-    <width>400</width>
+    <width>450</width>
     <height>300</height>
    </size>
   </property>
@@ -37,7 +37,7 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>40</y>
+      <y>10</y>
       <width>131</width>
       <height>17</height>
      </rect>
@@ -50,7 +50,7 @@
     <property name="geometry">
      <rect>
       <x>170</x>
-      <y>40</y>
+      <y>10</y>
       <width>113</width>
       <height>27</height>
      </rect>
@@ -60,7 +60,7 @@
     <property name="geometry">
      <rect>
       <x>310</x>
-      <y>40</y>
+      <y>10</y>
       <width>67</width>
       <height>17</height>
      </rect>
@@ -73,10 +73,22 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>80</y>
-      <width>241</width>
-      <height>121</height>
+      <y>30</y>
+      <width>128</width>
+      <height>128</height>
      </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>128</width>
+      <height>128</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>128</width>
+      <height>128</height>
+     </size>
     </property>
     <property name="text">
      <string/>
@@ -91,9 +103,9 @@
    <widget class="QCheckBox" name="m_cbAutoStart">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>100</y>
-      <width>201</width>
+      <x>140</x>
+      <y>50</y>
+      <width>231</width>
       <height>22</height>
      </rect>
     </property>
@@ -108,7 +120,7 @@
     <property name="geometry">
      <rect>
       <x>190</x>
-      <y>160</y>
+      <y>110</y>
       <width>141</width>
       <height>27</height>
      </rect>
@@ -117,23 +129,10 @@
      <string>Save and Start</string>
     </property>
    </widget>
-   <widget class="QLabel" name="m_countLabel">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>10</y>
-      <width>331</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
+    <enum>LeftToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
     <bool>false</bool>

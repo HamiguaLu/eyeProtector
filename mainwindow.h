@@ -3,8 +3,7 @@
 
 #include <QMainWindow>
 #include <QTimer>
-#include "qresttimecounter.h"
-#include "time2restdlg.h"
+
 
 namespace Ui {
 class MainWindow;
@@ -21,23 +20,17 @@ public:
 
 private slots:
     void on_m_saveBtn_clicked();
-    void onExitEvt();
-    void onShowMainUiEvt();
-    void onTime2RestEvt();
+    void on_m_lockTime_textChanged(const QString &arg1);
+
 private:
     Ui::MainWindow *ui;
-    QRestTimeCounter *m_restInfoDlg;
-    time2restDlg *m_lockDlg;
-
-private slots:
-
-   void on_m_lockTime_textChanged(const QString &arg1);
-
-
 
 private:
     void loadSettings();
     void saveSettings();
+
+signals:
+     void settingsChanged();
 
 };
 

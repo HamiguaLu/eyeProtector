@@ -2,6 +2,9 @@
 #include <QtWidgets>
 #include "qresttimecounter.h"
 #include "ui_qresttimecounter.h"
+#include "mainwindow.h"
+#include "time2restdlg.h"
+
 
 QRestTimeCounter::QRestTimeCounter(QWidget *parent) :
     QDialog(parent),
@@ -15,7 +18,9 @@ QRestTimeCounter::QRestTimeCounter(QWidget *parent) :
 
     showMainUiAct = new QAction(tr("&Settings"), this);
     showMainUiAct->setStatusTip(tr("Show main window"));
-    connect(showMainUiAct, SIGNAL(triggered()), this, SLOT(onShowMainUi()));
+    connect(showMainUiAct, SIGNAL(triggered()), this, SLOT(onSetting()));
+
+    setStyleSheet("background-color:#ccff99;");
 
     m_timerPerSec = new QTimer();
 
@@ -34,15 +39,22 @@ QRestTimeCounter::~QRestTimeCounter()
 
 void QRestTimeCounter::onExit()
 {
-    emit exitEvt();
+    close();
+    QApplication::quit();
 }
 
 
-void QRestTimeCounter::onShowMainUi()
+void QRestTimeCounter::onSetting()
 {
-    emit showMainUIEvt();
+    MainWindow *w = new MainWindow(this);
+    w->show();
+
+    connect(w,SIGNAL(settingsChanged()),this,SLOT(onStartMonitor()));
 }
 
+
+#include <X11/Xlib.h>
+extern void x11_window_set_on_top ( Window xid);
 
 void QRestTimeCounter::onTimerCounterEvent()
 {
@@ -50,7 +62,13 @@ void QRestTimeCounter::onTimerCounterEvent()
     if (m_iCounter < 0)
     {
         m_timerPerSec->stop();
-        emit time2restEvt();
+
+        time2restDlg *dlg = new time2restDlg();
+        dlg->setWindowFlags(Qt::FramelessWindowHint);
+        x11_window_set_on_top(dlg->winId());
+        dlg->showFullScreen();
+        connect(dlg,SIGNAL(restDlgClosed()),this,SLOT(onStartMonitor()));
+
         return;
     }
 
@@ -101,6 +119,8 @@ void QRestTimeCounter::mouseMoveEvent(QMouseEvent *event)
         event->accept();
     }
 }
+
+
 void QRestTimeCounter::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
@@ -112,6 +132,11 @@ void QRestTimeCounter::mousePressEvent(QMouseEvent *event)
 
 void QRestTimeCounter::keyPressEvent(QKeyEvent* /*event*/){
 
+}
+
+void QRestTimeCounter::onStartMonitor()
+{
+    startMonitor();
 }
 
 

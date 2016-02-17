@@ -30,6 +30,9 @@ private:
 
 protected:
     virtual void  keyPressEvent(QKeyEvent *event);
+
+signals:
+     void restDlgClosed();
 };
 
 #endif // TIME2RESTDLG_H

@@ -32,14 +32,11 @@ protected:
     QAction *showMainUiAct;
 
 private slots:
-    void onExit();
-    void onShowMainUi();
+    void onStartMonitor();
     void onTimerCounterEvent();
+    void onExit();
+    void onSetting();
 
-signals:
-     void showMainUIEvt();
-     void exitEvt();
-     void time2restEvt();
 
 protected:
      QPoint m_dragPosition;

@@ -41,6 +41,7 @@ time2restDlg::~time2restDlg()
 
 void time2restDlg::on_pushButton_clicked()
 {
+    emit restDlgClosed();
     close();
 }
 
@@ -54,6 +55,7 @@ void time2restDlg::onTimerCounterEvent()
     if (m_iCounter < 0)
     {
         m_timerPerSec->stop();
+        emit restDlgClosed();
         close();
         return;
     }
