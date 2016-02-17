@@ -91,7 +91,7 @@ void MainWindow::on_m_saveBtn_clicked()
     hide();
 }
 
-void MainWindow::on_m_lockTime_textChanged(const QString &arg1)
+void MainWindow::on_m_lockTime_textChanged(const QString &/*arg1*/)
 {
     if  (ui->m_lockTime->text().length() < 1)
     {

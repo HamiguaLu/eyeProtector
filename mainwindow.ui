@@ -72,9 +72,9 @@
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>0</x>
       <y>80</y>
-      <width>131</width>
+      <width>241</width>
       <height>121</height>
      </rect>
     </property>
@@ -83,6 +83,9 @@
     </property>
     <property name="pixmap">
      <pixmap resource="icon.qrc">:/icon/main/res/Eye_small.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>false</bool>
     </property>
    </widget>
    <widget class="QCheckBox" name="m_cbAutoStart">

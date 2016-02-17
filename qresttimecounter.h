@@ -23,8 +23,7 @@ public:
 private:
     Ui::QRestTimeCounter *ui;
     void startMonitor();
-    QTimer *m_timer;
-    QTimer *m_timerCounter;
+    QTimer *m_timerPerSec;
 
     int m_iCounter;
 
@@ -37,7 +36,6 @@ protected:
 private slots:
     void onExit();
     void onShowMainUi();
-    void onTimerEvent();
     void onTimerCounterEvent();
 
 signals:
@@ -49,6 +47,7 @@ protected:
      QPoint m_dragPosition;
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
+    virtual void  keyPressEvent(QKeyEvent *event);
 };
 
 #endif // QRESTTIMECOUNTER_H

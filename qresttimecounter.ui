@@ -16,17 +16,24 @@
   <property name="windowOpacity">
    <double>0.900000000000000</double>
   </property>
-  <widget class="QLabel" name="label">
+  <widget class="QLCDNumber" name="lcdNumber">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>171</width>
-     <height>21</height>
+     <x>0</x>
+     <y>0</y>
+     <width>161</width>
+     <height>23</height>
     </rect>
    </property>
-   <property name="text">
-    <string/>
+   <property name="font">
+    <font>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="digitCount">
+    <number>10</number>
    </property>
   </widget>
  </widget>

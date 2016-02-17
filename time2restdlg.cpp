@@ -35,6 +35,6 @@ void time2restDlg::on_pushButton_clicked()
     close();
 }
 
-void time2restDlg::keyPressEvent(QKeyEvent* event){
-    //printf("\nkey event in board: %i", event->key());
+void time2restDlg::keyPressEvent(QKeyEvent* /*event*/){
+
 }

@@ -17,16 +17,17 @@ QRestTimeCounter::QRestTimeCounter(QWidget *parent) :
     showMainUiAct->setStatusTip(tr("Show main window"));
     connect(showMainUiAct, SIGNAL(triggered()), this, SLOT(onShowMainUi()));
 
-    m_timer = new QTimer();
-    m_timerCounter = new QTimer();
+    m_timerPerSec = new QTimer();
 
     m_iCounter = 0;
      startMonitor();
+
+     ui->lcdNumber->resize(width(),height());
 }
 
 QRestTimeCounter::~QRestTimeCounter()
 {
-    m_timer->stop();
+    m_timerPerSec->stop();
     delete ui;
 }
 
@@ -43,27 +44,37 @@ void QRestTimeCounter::onShowMainUi()
 }
 
 
-void QRestTimeCounter::onTimerEvent()
-{
-    emit time2restEvt();
-
-    //startMonitor();
-}
-
-
 void QRestTimeCounter::onTimerCounterEvent()
 {
     --m_iCounter;
-    QString info = QString("%1 : %2 ").arg(m_iCounter / 60).arg(m_iCounter % 60);
-     ui->label->setText(info);
+    if (m_iCounter < 0)
+    {
+        m_timerPerSec->stop();
+        emit time2restEvt();
+        return;
+    }
+
+    QString info = "";
+    if (m_iCounter > 3600)
+    {
+        info = QString("%1:%2:%3").arg(m_iCounter / 3600).arg( (m_iCounter % 3600)/ 60).arg(m_iCounter % 60);
+    }
+    else
+    {
+        info = QString("%1:%2 ").arg(m_iCounter / 60).arg(m_iCounter % 60);
+    }
+
+     ui->lcdNumber->display(info);
 }
 
 
 void QRestTimeCounter::contextMenuEvent(QContextMenuEvent *event)
 {
     QMenu menu(this);
-    menu.addAction(exitAct);
+
     menu.addAction(showMainUiAct);
+    menu.addSeparator();
+    menu.addAction(exitAct);
 
     menu.exec(event->globalPos());
 }
@@ -71,17 +82,14 @@ void QRestTimeCounter::contextMenuEvent(QContextMenuEvent *event)
 
 void QRestTimeCounter::startMonitor()
 {
-    m_timer->stop();
-     connect(m_timer,SIGNAL(timeout()),this,SLOT(onTimerEvent()));
+    m_timerPerSec->stop();
+    connect(m_timerPerSec,SIGNAL(timeout()),this,SLOT(onTimerCounterEvent()));
 
     QSettings settings("eyeProtector.ini", QSettings::IniFormat);
      int timeout = settings.value("locktime",60).toInt();
-     m_timer->start(timeout * 60* 1000);
+     m_iCounter = timeout * 60;
 
-    m_iCounter = timeout * 60;
-    m_timerCounter->stop();
-    connect(m_timerCounter,SIGNAL(timeout()),this,SLOT(onTimerCounterEvent()));
-    m_timerCounter->start( 1000);
+     m_timerPerSec->start(1000);
 
 }
 
@@ -101,6 +109,10 @@ void QRestTimeCounter::mousePressEvent(QMouseEvent *event)
     }
 }
 
+
+void QRestTimeCounter::keyPressEvent(QKeyEvent* /*event*/){
+
+}
 
 
 
