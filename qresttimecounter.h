@@ -8,8 +8,6 @@ class QRestTimeCounter;
 }
 
 class QAction;
-class QActionGroup;
-class QLabel;
 class QMenu;
 
 class QRestTimeCounter : public QDialog

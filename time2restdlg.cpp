@@ -23,6 +23,15 @@ time2restDlg::time2restDlg(QWidget *parent) :
     pLayout->setAlignment(ui->pushButton,Qt::AlignCenter);
 
     this->setLayout(pLayout);
+
+
+    m_iCounter = EP_MAX_REST_TIME;
+    m_timerPerSec = new QTimer();
+    connect(m_timerPerSec,SIGNAL(timeout()),this,SLOT(onTimerCounterEvent()));
+    m_timerPerSec->start(1000);
+
+    //ui->pushButton->setEnabled(false);
+    onTimerCounterEvent();
 }
 
 time2restDlg::~time2restDlg()
@@ -38,3 +47,25 @@ void time2restDlg::on_pushButton_clicked()
 void time2restDlg::keyPressEvent(QKeyEvent* /*event*/){
 
 }
+
+void time2restDlg::onTimerCounterEvent()
+{
+    --m_iCounter;
+    if (m_iCounter < 0)
+    {
+        m_timerPerSec->stop();
+        close();
+        return;
+    }
+
+    if (m_iCounter < EP_MAX_REST_TIME/2)
+    {
+        ui->pushButton->setEnabled(true);
+    }
+
+    QString info = QString("%1:%2 ").arg(m_iCounter / 60).arg(m_iCounter % 60);
+
+     ui->lcdNumber->display(info);
+}
+
+

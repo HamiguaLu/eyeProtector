@@ -2,10 +2,12 @@
 #define TIME2RESTDLG_H
 
 #include <QDialog>
-
+#include <QTimer>
 namespace Ui {
 class time2restDlg;
 }
+
+#define EP_MAX_REST_TIME    (2*60)   // 2 minutes
 
 class time2restDlg : public QDialog
 {
@@ -17,9 +19,14 @@ public:
 
 private slots:
     void on_pushButton_clicked();
+    void onTimerCounterEvent();
 
 private:
     Ui::time2restDlg *ui;
+
+private:
+    QTimer *m_timerPerSec;
+    int m_iCounter;
 
 protected:
     virtual void  keyPressEvent(QKeyEvent *event);
