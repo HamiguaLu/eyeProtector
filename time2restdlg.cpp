@@ -11,7 +11,13 @@ time2restDlg::time2restDlg(QWidget *parent) :
 
     ui->lcdNumber->raise();
 
-    setStyleSheet("background-image: url(:/icon/main/res/bk3.jpg);");
+    int bkIndex = rand() % 6;
+    if (bkIndex == 0){
+        bkIndex = 1;
+    }
+
+    QString css = QString("background-image: url(:/icon/main/res/bk%1.jpg)").arg(bkIndex);
+    setStyleSheet(css);
     ui->pushButton->setStyleSheet("border:0px groove gray;border-radius:10px;padding:2px 4px;");
 
     QVBoxLayout *pLayout = new QVBoxLayout(this);
@@ -65,7 +71,15 @@ void time2restDlg::onTimerCounterEvent()
         ui->pushButton->setEnabled(true);
     }
 
-    QString info = QString("%1:%2 ").arg(m_iCounter / 60).arg(m_iCounter % 60);
+    QString info = "";
+    if (m_iCounter > 3600)
+    {
+        info.sprintf("%02d:%02d:%02d",m_iCounter / 3600,(m_iCounter % 3600)/ 60,m_iCounter % 60);
+    }
+    else
+    {
+        info.sprintf("%02d:%02d",m_iCounter / 60, m_iCounter % 60);
+    }
 
      ui->lcdNumber->display(info);
 }

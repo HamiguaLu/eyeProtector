@@ -28,6 +28,13 @@ QRestTimeCounter::QRestTimeCounter(QWidget *parent) :
      startMonitor();
 
      ui->lcdNumber->resize(width(),height());
+
+     QSettings settings("eyeProtector.ini", QSettings::IniFormat);
+     int xPos = settings.value("xPos",QApplication::desktop()->width() - 200).toInt();
+     int yPos = settings.value("yPos",QApplication::desktop()->height() - 200).toInt();
+
+    move(xPos,yPos);
+
 }
 
 QRestTimeCounter::~QRestTimeCounter()
@@ -46,7 +53,7 @@ void QRestTimeCounter::onExit()
 
 void QRestTimeCounter::onSetting()
 {
-    MainWindow *w = new MainWindow(this);
+    MainWindow *w = new MainWindow();
     w->show();
 
     connect(w,SIGNAL(settingsChanged()),this,SLOT(onStartMonitor()));
@@ -75,11 +82,11 @@ void QRestTimeCounter::onTimerCounterEvent()
     QString info = "";
     if (m_iCounter > 3600)
     {
-        info = QString("%1:%2:%3").arg(m_iCounter / 3600).arg( (m_iCounter % 3600)/ 60).arg(m_iCounter % 60);
+        info.sprintf("%02d:%02d:%02d",m_iCounter / 3600,(m_iCounter % 3600)/ 60,m_iCounter % 60);
     }
     else
     {
-        info = QString("%1:%2 ").arg(m_iCounter / 60).arg(m_iCounter % 60);
+        info.sprintf("%02d:%02d",m_iCounter / 60, m_iCounter % 60);
     }
 
      ui->lcdNumber->display(info);
@@ -115,7 +122,12 @@ void QRestTimeCounter::startMonitor()
 void QRestTimeCounter::mouseMoveEvent(QMouseEvent *event)
 {
     if (event->buttons() & Qt::LeftButton) {
-        move(event->globalPos() - m_dragPosition);
+        QPoint pos = event->globalPos() - m_dragPosition;
+        move(pos.x(),pos.y());
+
+        QSettings settings("eyeProtector.ini", QSettings::IniFormat);
+        settings.setValue("xPos", pos.x());
+        settings.setValue("yPos", pos.y());
         event->accept();
     }
 }

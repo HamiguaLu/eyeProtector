@@ -17,7 +17,23 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->m_lockTime->setValidator(new QIntValidator(1, 600, this));
     ui->m_saveBtn->setEnabled(false);
 
-    setStyleSheet("background-color:grey;");
+    //setStyleSheet("background-color:grey;");
+
+    QSettings settings("eyeProtector.ini", QSettings::IniFormat);
+    int xPos = settings.value("xPos", 200).toInt() - 100;
+    int yPos = settings.value("yPos",300).toInt() - 250;
+
+    if (xPos < 0)
+    {
+        xPos = 0;
+    }
+
+    if (yPos < 0)
+    {
+        yPos = 0;
+    }
+
+   move(xPos,yPos);
 
     loadSettings();
 
