@@ -32,7 +32,7 @@ time2restDlg::time2restDlg(QWidget *parent) :
 
 
     m_iCounter = EP_MAX_REST_TIME;
-    m_timerPerSec = new QTimer();
+    m_timerPerSec = new QTimer(this);
     connect(m_timerPerSec,SIGNAL(timeout()),this,SLOT(onTimerCounterEvent()));
     m_timerPerSec->start(1000);
 
@@ -47,6 +47,7 @@ time2restDlg::~time2restDlg()
 
 void time2restDlg::on_pushButton_clicked()
 {
+    m_timerPerSec->stop();
     emit restDlgClosed();
     close();
 }

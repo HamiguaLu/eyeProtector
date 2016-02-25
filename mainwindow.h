@@ -22,6 +22,8 @@ private slots:
     void on_m_saveBtn_clicked();
     void on_m_lockTime_textChanged(const QString &arg1);
 
+    void on_m_cbAutoStart_clicked(bool checked);
+
 private:
     Ui::MainWindow *ui;
 

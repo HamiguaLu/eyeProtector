@@ -6,7 +6,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-
+void createAutoStartCfg(bool bAutoStart);
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -85,4 +85,10 @@ void MainWindow::on_m_lockTime_textChanged(const QString &/*arg1*/)
      {
          ui->m_saveBtn->setEnabled(false);
      }
+}
+
+
+void MainWindow::on_m_cbAutoStart_clicked(bool checked)
+{
+    createAutoStartCfg(checked);
 }

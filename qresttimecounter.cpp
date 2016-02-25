@@ -4,7 +4,13 @@
 #include "ui_qresttimecounter.h"
 #include "mainwindow.h"
 #include "time2restdlg.h"
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <pwd.h>
 
+bool isCfgExist();
+void createAutoStartCfg(bool bAutoStart);
 
 QRestTimeCounter::QRestTimeCounter(QWidget *parent) :
     QDialog(parent),
@@ -22,7 +28,8 @@ QRestTimeCounter::QRestTimeCounter(QWidget *parent) :
 
     setStyleSheet("background-color:#ccff99;");
 
-    m_timerPerSec = new QTimer();
+    m_timerPerSec = new QTimer(this);
+    connect(m_timerPerSec,SIGNAL(timeout()),this,SLOT(onTimerCounterEvent()));
 
     m_iCounter = 0;
      startMonitor();
@@ -34,6 +41,21 @@ QRestTimeCounter::QRestTimeCounter(QWidget *parent) :
      int yPos = settings.value("yPos",QApplication::desktop()->height() - 200).toInt();
 
     move(xPos,yPos);
+
+    if (!isCfgExist())
+    {
+        createAutoStartCfg(settings.value("autostart",true).toBool());
+
+        const char *homedir;
+        if ((homedir = getenv("XDG_CONFIG_HOME")) == NULL) {
+            homedir = getpwuid(getuid())->pw_dir;
+        }
+
+       char cmd[1024];
+       sprintf(cmd,"sudo desktop-file-install %s/.config/autostart/eyeProtector.desktop",homedir);
+       system(cmd);
+
+    }
 
 }
 
@@ -54,6 +76,7 @@ void QRestTimeCounter::onExit()
 void QRestTimeCounter::onSetting()
 {
     MainWindow *w = new MainWindow();
+    w->setAttribute(Qt::WA_DeleteOnClose);
     w->show();
 
     connect(w,SIGNAL(settingsChanged()),this,SLOT(onStartMonitor()));
@@ -72,6 +95,7 @@ void QRestTimeCounter::onTimerCounterEvent()
 
         time2restDlg *dlg = new time2restDlg();
         dlg->setWindowFlags(Qt::FramelessWindowHint);
+        dlg->setAttribute(Qt::WA_DeleteOnClose);
         x11_window_set_on_top(dlg->winId());
         dlg->showFullScreen();
         connect(dlg,SIGNAL(restDlgClosed()),this,SLOT(onStartMonitor()));
@@ -108,7 +132,6 @@ void QRestTimeCounter::contextMenuEvent(QContextMenuEvent *event)
 void QRestTimeCounter::startMonitor()
 {
     m_timerPerSec->stop();
-    connect(m_timerPerSec,SIGNAL(timeout()),this,SLOT(onTimerCounterEvent()));
 
     QSettings settings("eyeProtector.ini", QSettings::IniFormat);
      int timeout = settings.value("locktime",60).toInt();

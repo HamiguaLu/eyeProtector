@@ -38,6 +38,68 @@ void x11_window_set_on_top ( Window xid)
     XCloseDisplay (display);
 }
 
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <pwd.h>
+
+
+bool isCfgExist()
+{
+    const char *homedir;
+    if ((homedir = getenv("XDG_CONFIG_HOME")) == NULL) {
+        homedir = getpwuid(getuid())->pw_dir;
+    }
+
+   char cfgFileName[1024];
+   sprintf(cfgFileName,"%s/.config/autostart/eyeProtector.desktop",homedir);
+   if (0 == access(cfgFileName, 0)) {
+       return true;
+   }
+
+   return false;
+}
+
+
+void createAutoStartCfg(bool bAutoStart)
+{
+    char cwd[1024];
+    if (getcwd(cwd, sizeof(cwd)) == NULL)
+    {
+          return;
+    }
+
+    const char *homedir;
+    if ((homedir = getenv("XDG_CONFIG_HOME")) == NULL) {
+        homedir = getpwuid(getuid())->pw_dir;
+    }
+
+    char cmd[1024];
+    sprintf(cmd,"mkdir %s/.config",homedir);
+    system(cmd);
+    sprintf(cmd,"mkdir %s/.config/autostart",homedir);
+    system(cmd);
+
+   char cfgFileName[1024];
+   sprintf(cfgFileName,"%s/.config/autostart/eyeProtector.desktop",homedir);
+   FILE *fcfg = fopen(cfgFileName,"w+");
+   fprintf(fcfg,"[Desktop Entry]\n");
+    fprintf(fcfg,"Exec=%s/eyeProtector\n",cwd);
+    fprintf(fcfg,"Icon=%s/Eye_small.png\n",cwd);
+    fprintf(fcfg,"Type=Application\n");
+    fprintf(fcfg,"Terminal=false\n");
+    fprintf(fcfg,"Name=Eye Protector\n");
+    fprintf(fcfg,"InitialPreference=9\n");
+    if (bAutoStart)
+    {
+        fprintf(fcfg,"X-GNOME-Autostart-enabled=true\n");
+    }
+
+    fclose(fcfg);
+
+}
+
+
 
 #include "qresttimecounter.h"
 
